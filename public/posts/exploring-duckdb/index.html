@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database · James Waller
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Wallyflops">
+<meta name="description" content="Trying out and writing my thoughts about DuckDb">
+<meta name="keywords" content="blog,developer,analytics engineer,dbt">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database">
+  <meta name="twitter:description" content="Trying out and writing my thoughts about DuckDb">
+
+<meta property="og:url" content="http://localhost:1313/posts/exploring-duckdb/">
+  <meta property="og:site_name" content="James Waller">
+  <meta property="og:title" content="Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database">
+  <meta property="og:description" content="Trying out and writing my thoughts about DuckDb">
+  <meta property="og:locale" content="en_gb">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-09-29T20:36:15+01:00">
+    <meta property="article:modified_time" content="2023-09-29T20:36:15+01:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/exploring-duckdb/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      James Waller
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/exploring-duckdb/">
+              Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2023-09-29T20:36:15&#43;01:00">
+                September 29, 2023
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h1 id="introduction">
+  Introduction
+  <a class="heading-link" href="#introduction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Lately, my LinkedIn and data-focused Twitter feeds have been abuzz with excitement about DuckDB. Intrigued by the chatter, I decided to investigate what all the hype was about. In this blog post, we’ll delve into DuckDB, dissecting its key features and exploring its potential applications.</p>
+<h2 id="understanding-duckdb">
+  Understanding DuckDB
+  <a class="heading-link" href="#understanding-duckdb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>DuckDB’s official website boldly proclaims it as an in-process SQL OLAP Database. Let’s break down what this means:</p>
+<h2 id="in-process-database">
+  In-Process Database
+  <a class="heading-link" href="#in-process-database">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>DuckDB operates in-process, which means it runs directly within your application. This design is reminiscent of SQLite, and it’s a significant departure from traditional databases that require an external process for interaction.</p>
+<h2 id="sql-olap-database">
+  SQL OLAP Database
+  <a class="heading-link" href="#sql-olap-database">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>The “OLAP” in DuckDB’s description stands for Online Analytical Processing. This signifies that DuckDB is optimised for analytical workloads, as opposed to transactional operations. In practical terms, this optimisation means that DuckDB excels when it comes to handling analytical queries. For instance, performing aggregations like SUM over a column becomes blazingly fast when all the column’s values are stored together.</p>
+<p><img src="/images/OLAP_Image.png" alt="Row store vs column store"></p>
+<h1 id="use-cases-for-duckdb">
+  Use Cases for DuckDB
+  <a class="heading-link" href="#use-cases-for-duckdb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>So, what can DuckDB be used for? Here are some compelling reasons to consider using DuckDB:</p>
+<h2 id="easy-setup">
+  Easy Setup
+  <a class="heading-link" href="#easy-setup">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Setting up DuckDB is a breeze. Anyone who has experienced the trials and tribulations of dealing with free cloud accounts or complex Docker configurations will appreciate DuckDB’s simplicity. In fact, getting started with DuckDB is as straightforward as running a few commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pip install duckdb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> duckdb <span style="color:#66d9ef">as</span> ddb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>csv_name <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">‘</span>Pacing_Summary_By_Frame<span style="color:#f92672">.</span>csv<span style="color:#960050;background-color:#1e0010">’</span> <span style="color:#75715e"># Read data from CSV</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>table_of_data <span style="color:#f92672">=</span> ddb<span style="color:#f92672">.</span>read_csv(f<span style="color:#960050;background-color:#1e0010">’</span><span style="color:#f92672">/</span>Users<span style="color:#f92672">/</span>waller<span style="color:#f92672">/</span>downloads<span style="color:#f92672">/</span>{csv_name}<span style="color:#960050;background-color:#1e0010">’</span>, all_varchar<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>) <span style="color:#75715e"># Run SQL queries effortlessly</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ddb<span style="color:#f92672">.</span>sql(<span style="color:#960050;background-color:#1e0010">‘</span>SELECT <span style="color:#f92672">*</span> FROM table_of_data<span style="color:#960050;background-color:#1e0010">’</span>)<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><h2 id="ideal-for-prototyping">
+  Ideal for Prototyping
+  <a class="heading-link" href="#ideal-for-prototyping">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>If you’re a data professional who frequently engages in exploratory data analysis or prototyping, DuckDB is your new best friend. Its SQL-centric approach makes it a natural choice for those more accustomed to SQL than other data manipulation tools. With just a few lines of code, you can unlock the power of DuckDB:</p>
+<p>In a matter of minutes, you’ll be harnessing DuckDB’s feature-rich capabilities for your data exploration needs.</p>
+<h1 id="conclusion">
+  Conclusion
+  <a class="heading-link" href="#conclusion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>DuckDB’s rise in popularity is not without reason. Its in-process design, tailored for analytical workloads, and user-friendly setup make it a compelling choice for data professionals. Whether you’re a seasoned SQL enthusiast or new to the data analysis game, DuckDB is worth exploring. It’s poised to simplify your data-related tasks and accelerate your analytical endeavours. So, jump on the DuckDB bandwagon and see how it can transform your data handling experience.</p>
+<p>Happy querying!</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+     Wallyflops 
+    
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

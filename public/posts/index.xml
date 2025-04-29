@@ -6,14 +6,14 @@
     <description>Recent content in Posts on James Waller</description>
     <generator>Hugo</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 28 Apr 2025 22:10:40 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 29 Sep 2023 20:36:15 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>title</title>
-      <link>http://localhost:1313/posts/hello-world/</link>
-      <pubDate>Mon, 28 Apr 2025 22:10:40 +0100</pubDate>
-      <guid>http://localhost:1313/posts/hello-world/</guid>
-      <description></description>
+      <title>Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database</title>
+      <link>http://localhost:1313/posts/exploring-duckdb/</link>
+      <pubDate>Fri, 29 Sep 2023 20:36:15 +0100</pubDate>
+      <guid>http://localhost:1313/posts/exploring-duckdb/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introduction&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Lately, my LinkedIn and data-focused Twitter feeds have been abuzz with excitement about DuckDB. Intrigued by the chatter, I decided to investigate what all the hype was about. In this blog post, we’ll delve into DuckDB, dissecting its key features and exploring its potential applications.&lt;/p&gt;&#xA;&lt;h2 id=&#34;understanding-duckdb&#34;&gt;&#xA;  Understanding DuckDB&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#understanding-duckdb&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;DuckDB’s official website boldly proclaims it as an in-process SQL OLAP Database. Let’s break down what this means:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
