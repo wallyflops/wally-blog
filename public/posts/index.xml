@@ -6,8 +6,15 @@
     <description>Recent content in Posts on James Waller</description>
     <generator>Hugo</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 29 Sep 2023 20:36:15 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://datawaller.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What is Git Rebase?</title>
+      <link>https://datawaller.com/posts/what-is-git-rebase/</link>
+      <pubDate>Mon, 06 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://datawaller.com/posts/what-is-git-rebase/</guid>
+      <description>&lt;h1 id=&#34;what-is-git-rebase&#34;&gt;&#xA;  What is git rebase?&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#what-is-git-rebase&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Git rebase is a powerful command that rewrites a branch’s commit history. Before using it, it’s important to understand how it works, especially to avoid unintended changes on your main branch.&#xA;When working with feature branches, frequent merges into the main branch can lead to a cluttered commit history filled with merge commits. Git rebase helps clean this up by rearranging the commits from your feature branch to appear as if they were made directly on the main branch.&#xA;Unlike merging, rebasing avoids creating merge commits, keeping your repository history linear and much easier to follow.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Exploring the Hype Around DuckDB: An In-Process SQL OLAP Database</title>
       <link>https://datawaller.com/posts/exploring-duckdb/</link>
