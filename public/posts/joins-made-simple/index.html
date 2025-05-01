@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  SQL Joins made simple · James Waller
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="James Waller">
+<meta name="description" content="Tutorial and explainer on how SQL joins work">
+<meta name="keywords" content="blog,developer,analytics engineer,dbt">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SQL Joins made simple">
+  <meta name="twitter:description" content="Tutorial and explainer on how SQL joins work">
+
+<meta property="og:url" content="https://datawaller.com/posts/joins-made-simple/">
+  <meta property="og:site_name" content="James Waller">
+  <meta property="og:title" content="SQL Joins made simple">
+  <meta property="og:description" content="Tutorial and explainer on how SQL joins work">
+  <meta property="og:locale" content="en_gb">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-10-24T10:46:48+01:00">
+    <meta property="article:modified_time" content="2021-10-24T10:46:48+01:00">
+
+
+
+
+<link rel="canonical" href="https://datawaller.com/posts/joins-made-simple/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7763f8bc6341ecf82378e867c285e1549abb063a899be313ccd25dbfcd24fa7d.css" integrity="sha256-d2P4vGNB7PgjeOhnwoXhVJq7BjqJm&#43;MTzNJdv80k&#43;n0=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://datawaller.com/">
+      James Waller
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://datawaller.com/posts/joins-made-simple/">
+              SQL Joins made simple
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-10-24T10:46:48&#43;01:00">
+                October 24, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>Let’s start with some example data</p>
+<p><img src="/images/joins_1.png" alt="example_data"></p>
+<p>Example data text</p>
+<h2 id="inner-join">
+  Inner join
+  <a class="heading-link" href="#inner-join">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Probably the most common example is the ‘inner join’, which can just be written as ‘join’.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span>    People p
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">join</span> City <span style="color:#66d9ef">c</span> <span style="color:#66d9ef">on</span> p.id <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.id
+</span></span></code></pre></div><p>The inner join will return all matching rows, in this case we are joining on “id” column.</p>
+<p>The results from this query will look like this</p>
+<p><img src="/images/joins_2.png" alt="inner join query"></p>
+<p>The results of the earlier query
+Notably, this is not returning rows which have no match, id 5 &amp; 6 Sophie and Patrick have no relevant matches in the City table.</p>
+<h2 id="left-join">
+  Left join
+  <a class="heading-link" href="#left-join">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Left join is probably the second-most common join type, it can also be called by it’s full name a Left Outer Join.</p>
+<p>the left join will return ALL rows from our original table, and then only bring back results from our joined table where they match.</p>
+<p><img src="/images/joins_3.png" alt="left join query"></p>
+<p>The results of a left join query
+So this example brings back our full list of the People table, but then just leaves NULLS where id 5 &amp; 6 have no matching data in the City table.</p>
+<h2 id="right-join">
+  Right join
+  <a class="heading-link" href="#right-join">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>This is pretty much the same as the left join as the name implies, but the results are kept in your joining table. Often this wouldn’t be used in practice as you could just write your query the other way around (Swapping the position of the tables).</p>
+<p>Here’s the same query as before, but we replace Left with Right.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span>    People p
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">right</span> <span style="color:#66d9ef">join</span> City <span style="color:#66d9ef">c</span> <span style="color:#66d9ef">on</span> p.id <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.id
+</span></span></code></pre></div><p>So we will notice now a reverse of the left join, with the query returning ALL the Cities, but only the matching results from the Person table</p>
+<p>Query results from a right join</p>
+<p><img src="/images/joins_4.png" alt="right join query"></p>
+<h2 id="cross-join">
+  Cross Join
+  <a class="heading-link" href="#cross-join">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>This is a weird one and is used less so than the ones above, but does have some niche uses. This is a cartesian product or more simply put “everything by everything.” This can produce a scary amount of records and you should be very careful running this.</p>
+<p>I also see this written in two different ways, but I always prefer the most explicit version.</p>
+<h3 id="explicit">
+  Explicit
+  <a class="heading-link" href="#explicit">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span>    People 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">cross</span> <span style="color:#66d9ef">join</span> City
+</span></span></code></pre></div><p>I prefer this method, as it’s clearer</p>
+<h3 id="implicit">
+  Implicit
+  <a class="heading-link" href="#implicit">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span>    People, City
+</span></span></code></pre></div><p>I see this method a lot, but I find it much less clear to read at a glance
+I’ve had to cut this one off in the image, but it will carry on for every single record in the People table, and place every single record in the City table beside it</p>
+<p><img src="/images/joins_5.png" alt="implicit join query"></p>
+<p>The results of a cross join query</p>
+<h2 id="full-outer-join">
+  Full Outer Join
+  <a class="heading-link" href="#full-outer-join">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>This is a mix of left and right joins. It will return all records in the People and City tables, and if there is no match it will show a NULL</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span>  <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">from</span>    People p 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">full</span> <span style="color:#66d9ef">outer</span> <span style="color:#66d9ef">join</span> City <span style="color:#66d9ef">c</span> <span style="color:#66d9ef">on</span> p.id <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.id
+</span></span></code></pre></div><p>The results of this one are pretty self explanatory if you’ve been following</p>
+<p>The results of a full outer join
+This again has some more niche uses, I see it a lot in BI tools like Qlik Sense</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2025
+     James Waller 
+    
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>
